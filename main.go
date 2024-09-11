@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 type Meta struct {
@@ -103,6 +104,9 @@ func handleFlightNumber(c *fiber.Ctx) error {
 
 func main() {
 	app := fiber.New()
+
+	// Tambahkan middleware CORS
+	app.Use(cors.New())
 
 	app.Post("/api/flightroute", handleFlightRoute)
 	app.Post("/api/flightnum", handleFlightNumber)
