@@ -7,8 +7,11 @@ import (
 	"log"
 	"net/http"
 
+	_ "test-variflight/docs"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/swagger"
 )
 
 type Meta struct {
@@ -66,6 +69,17 @@ func getVariflightData(url string) (interface{}, error) {
 	return result, nil
 }
 
+// @Summary Mendapatkan informasi rute penerbangan
+// @Description Mendapatkan informasi rute penerbangan berdasarkan bandara keberangkatan, kedatangan, dan tanggal
+// @Tags Penerbangan
+// @Accept json
+// @Produce json
+// @Param request body FlightRouteRequest true "Data permintaan rute penerbangan"
+// @Param request body FlightRouteRequest true "Data permintaan rute penerbangan" example={"dep":"CGK","arr":"DPS","date":"2024-09-20"}
+// @Success 200 {object} Response
+// @Failure 400 {object} Response
+// @Failure 500 {object} Response
+// @Router /api/flightroute [post]
 func handleFlightRoute(c *fiber.Ctx) error {
 	var req FlightRouteRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -84,6 +98,17 @@ func handleFlightRoute(c *fiber.Ctx) error {
 	return c.JSON(formatResponse("Berhasil mendapatkan data rute penerbangan", fiber.StatusOK, "success", result))
 }
 
+// @Summary Mendapatkan informasi nomor penerbangan
+// @Description Mendapatkan informasi nomor penerbangan berdasarkan nomor penerbangan dan tanggal
+// @Tags Penerbangan
+// @Accept json
+// @Produce json
+// @Param request body FlightNumberRequest true "Data permintaan nomor penerbangan"
+// @Param request body FlightNumberRequest true "Data permintaan nomor penerbangan" example={"fnum":"CA1234","date":"2024-09-20"}
+// @Success 200 {object} Response
+// @Failure 400 {object} Response
+// @Failure 500 {object} Response
+// @Router /api/flightnum [post]
 func handleFlightNumber(c *fiber.Ctx) error {
 	var req FlightNumberRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -102,12 +127,17 @@ func handleFlightNumber(c *fiber.Ctx) error {
 	return c.JSON(formatResponse("Berhasil mendapatkan data nomor penerbangan", fiber.StatusOK, "success", result))
 }
 
+// @title API Variflight
+// @version 1.0
+// @description API untuk mendapatkan data penerbangan domestik dan internasional
+// @host localhost:7000
+// @BasePath /api
 func main() {
 	app := fiber.New()
 
 	// Tambahkan middleware CORS
 	app.Use(cors.New())
-
+	app.Get("/*", swagger.HandlerDefault)
 	app.Post("/api/flightroute", handleFlightRoute)
 	app.Post("/api/flightnum", handleFlightNumber)
 

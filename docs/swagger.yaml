@@ -1,0 +1,137 @@
+basePath: /api
+definitions:
+  main.FlightNumberRequest:
+    properties:
+      date:
+        description: |-
+          Tanggal penerbangan (format: YYYY-MM-DD)
+          example: 2024-09-20
+        example: "2024-09-20"
+        type: string
+      fnum:
+        description: |-
+          Nomor penerbangan
+          example: CA1234
+        example: CA1234
+        type: string
+    type: object
+  main.FlightRouteRequest:
+    properties:
+      arr:
+        description: |-
+          Kode bandara kedatangan
+          example: SHA
+        example: SHA
+        type: string
+      date:
+        description: |-
+          Tanggal penerbangan (format: YYYY-MM-DD)
+          example: 2024-09-20
+        example: "2024-09-20"
+        type: string
+      dep:
+        description: |-
+          Kode bandara keberangkatan
+          example: PEK
+        example: PEK
+        type: string
+    type: object
+  main.Meta:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  main.Response:
+    properties:
+      data: {}
+      meta:
+        $ref: "#/definitions/main.Meta"
+    type: object
+host: localhost:7000
+info:
+  contact: {}
+  description: API untuk mendapatkan data penerbangan domestik dan internasional
+  title: API Flight Status
+  version: "1.0"
+paths:
+  /api/flightnum:
+    post:
+      consumes:
+        - application/json
+      description:
+        Mendapatkan informasi nomor penerbangan berdasarkan nomor penerbangan
+        dan tanggal
+      parameters:
+        - description: Data permintaan nomor penerbangan
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: "#/definitions/main.FlightNumberRequest"
+        - description: Data permintaan nomor penerbangan
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: "#/definitions/main.FlightNumberRequest"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/main.Response"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/main.Response"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/main.Response"
+      summary: Mendapatkan informasi nomor penerbangan
+      tags:
+        - Penerbangan
+  /api/flightroute:
+    post:
+      consumes:
+        - application/json
+      description:
+        Mendapatkan informasi rute penerbangan berdasarkan bandara keberangkatan,
+        kedatangan, dan tanggal
+      parameters:
+        - description: Data permintaan rute penerbangan
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: "#/definitions/main.FlightRouteRequest"
+        - description: Data permintaan rute penerbangan
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: "#/definitions/main.FlightRouteRequest"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/main.Response"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/main.Response"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/main.Response"
+      summary: Mendapatkan informasi rute penerbangan
+      tags:
+        - Penerbangan
+swagger: "2.0"

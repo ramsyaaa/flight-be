@@ -1,0 +1,171 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API untuk mendapatkan data penerbangan domestik dan internasional",
+    "title": "API Flight Status",
+    "contact": {},
+    "version": "1.0"
+  },
+  "host": "localhost:7000",
+  "basePath": "/api",
+  "paths": {
+    "/api/flightnum": {
+      "post": {
+        "description": "Mendapatkan informasi nomor penerbangan berdasarkan nomor penerbangan dan tanggal",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Penerbangan"],
+        "summary": "Mendapatkan informasi nomor penerbangan",
+        "parameters": [
+          {
+            "description": "Data permintaan nomor penerbangan",
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.FlightNumberRequest"
+            }
+          },
+          {
+            "description": "Data permintaan nomor penerbangan",
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.FlightNumberRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/main.Response"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/main.Response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/main.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/flightroute": {
+      "post": {
+        "description": "Mendapatkan informasi rute penerbangan berdasarkan bandara keberangkatan, kedatangan, dan tanggal",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Penerbangan"],
+        "summary": "Mendapatkan informasi rute penerbangan",
+        "parameters": [
+          {
+            "description": "Data permintaan rute penerbangan",
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.FlightRouteRequest"
+            }
+          },
+          {
+            "description": "Data permintaan rute penerbangan",
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.FlightRouteRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/main.Response"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/main.Response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/main.Response"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "main.FlightNumberRequest": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "description": "Tanggal penerbangan (format: YYYY-MM-DD)\nexample: 2024-09-20",
+          "type": "string",
+          "example": "2024-09-20"
+        },
+        "fnum": {
+          "description": "Nomor penerbangan\nexample: CA1234",
+          "type": "string",
+          "example": "CA1234"
+        }
+      }
+    },
+    "main.FlightRouteRequest": {
+      "type": "object",
+      "properties": {
+        "arr": {
+          "description": "Kode bandara kedatangan\nexample: SHA",
+          "type": "string",
+          "example": "SHA"
+        },
+        "date": {
+          "description": "Tanggal penerbangan (format: YYYY-MM-DD)\nexample: 2024-09-20",
+          "type": "string",
+          "example": "2024-09-20"
+        },
+        "dep": {
+          "description": "Kode bandara keberangkatan\nexample: PEK",
+          "type": "string",
+          "example": "PEK"
+        }
+      }
+    },
+    "main.Meta": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "main.Response": {
+      "type": "object",
+      "properties": {
+        "data": {},
+        "meta": {
+          "$ref": "#/definitions/main.Meta"
+        }
+      }
+    }
+  }
+}
